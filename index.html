@@ -51,7 +51,13 @@
         <!-- HEADER (Dynamic based on View) -->
         <header class="app-header" id="mainHeader">
             <div class="header-top">
-                <h1 class="app-title" id="pageTitle">Transformation System</h1>
+                <div class="header-title-wrapper" style="flex: 1; margin-right: 1rem;">
+                    <h1 class="app-title" id="pageTitle">Transformation System</h1>
+                    <select id="programSelector" class="gym-input program-selector" style="margin-top: 0.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.4rem; border-radius: 8px; width: 100%; max-width: 300px; font-size: 0.85rem;">
+                        <option value="bodybuilding" style="color: black;">Bodybuilding System</option>
+                        <option value="shoulder" style="color: black;">Jeff Nippard's Shoulder</option>
+                    </select>
+                </div>
                 <div class="auth-section">
                     <button id="authBtn" class="auth-btn">Login</button>
                     <div id="userInfo" class="user-info" style="display: none;">
@@ -401,7 +407,8 @@
 
     <!-- FEATURE SCRIPTS -->
     <script src="js/muscle-map.js?v=2"></script>
-    <script src="js/app.js?v=4"></script>
+    <script src="js/programs.js?v=1"></script>
+    <script src="js/app.js?v=5"></script>
     <script src="js/party-mode.js?v=9"></script>
     <script src="js/profile-manager.js?v=9"></script>
     <script src="js/stats.js?v=5"></script>

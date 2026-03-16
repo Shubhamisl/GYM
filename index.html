@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bodybuilding Transformation System</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="description"
+        content="Track your bodybuilding transformation with exercise logging, muscle heatmaps, and statistics">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GYM Tracker">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#0f0f23">
+    <meta name="msapplication-TileImage" content="assets/icons/icon-144x144.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="assets/icons/icon-152x152.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-96x96.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=4">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- Config & Core -->
+    <script src="js/config.js?v=2"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => { if (window.FirebaseConfig) window.FirebaseConfig.init(); });</script>
+    <script src="js/auth.js?v=3"></script>
+    <script src="js/cloud-sync.js?v=2"></script>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- HEADER (Dynamic based on View) -->
+        <header class="app-header" id="mainHeader">
+            <div class="header-top">
+                <h1 class="app-title" id="pageTitle">Transformation System</h1>
+                <div class="auth-section">
+                    <button id="authBtn" class="auth-btn">Login</button>
+                    <div id="userInfo" class="user-info" style="display: none;">
+                        <span id="userEmail" class="user-email"></span>
+                        <button id="logoutBtn" class="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracker Specific Header Controls -->
+            <div id="trackerHeaderControls" class="tracker-controls">
+                <div class="week-navigator">
+                    <button id="prevWeek" class="nav-btn">◀</button>
+                    <div class="week-display">
+                        <span id="currentBlock" class="block-label">Foundation Block</span>
+                        <span id="currentWeek" class="week-label">Week 1</span>
+                        <button id="viewWarmupBtn" class="warmup-btn">Warmup</button>
+                    </div>
+                    <button id="nextWeek" class="nav-btn">▶</button>
+                </div>
+                <div class="week-progress-container">
+                    <div id="weekProgress" class="week-progress-bar"></div>
+                </div>
+                <nav class="day-selector">
+                    <button class="day-btn active" data-day="1">1</button>
+                    <button class="day-btn" data-day="2">2</button>
+                    <button class="day-btn" data-day="3">3</button>
+                    <button class="day-btn" data-day="4">4</button>
+                    <button class="day-btn" data-day="5">5</button>
+                    <button class="day-btn" data-day="6">6</button>
+                    <button class="day-btn" data-day="7">7</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- MAIN VIEWS -->
+        <main class="app-content">
+
+            <!-- VIEW 1: TRACKER -->
+            <section id="view-tracker" class="view-section active">
+                <div class="workout-header">
+                    <h2 id="workoutName">Upper Strength</h2>
+                    <div id="workoutFocus" class="workout-focus">Vertical/Horizontal Push and Pull Power</div>
+                </div>
+                <div id="exerciseList" class="exercise-list">
+                    <!-- Exercise Cards injected -->
+                </div>
+            </section>
+
+            <!-- VIEW 2: STATS & PARTY -->
+            <section id="view-stats" class="view-section" style="display: none;">
+
+                <!-- Profile Header -->
+                <div id="profileHeader" class="profile-header-section" style="display: none;">
+                    <div class="profile-header-content">
+                        <div class="profile-avatar-container">
+                            <div id="profileAvatarDisplay" class="profile-avatar-large">🏋️‍♂️</div>
+                            <button id="editProfileBtn" class="edit-profile-badge" title="Edit Profile">✏️</button>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileNameDisplay" class="profile-name-large">Athlete</h2>
+                            <span id="profileJoinedDisplay" class="profile-joined">Member</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">🏋️</span>
+                        <div class="stat-content">
+                            <span class="stat-value" id="totalWorkouts">0</span>
+                            <span class="stat-label">Workouts</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">📈</span>
+                        <div class="stat-content">
+                            <span class="stat-value" id="totalVolume">0</span>
+                            <span class="stat-label">Volume</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🔥</span>
+                        <div class="stat-content">
+                            <span class="stat-value" id="currentStreak">0</span>
+                            <span class="stat-label">Streak</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Party Mode -->
+                <div id="partySection" class="stats-section">
+                    <h2 class="section-title">⚔️ Party Mode</h2>
+                    <div id="partyLoginHint" style="display: none;">
+                        <p>Log in to join the party.</p>
+                    </div>
+
+                    <div id="partyContent" class="party-container" style="display: none;">
+                        <!-- Lobby -->
+                        <div id="partyLobby" class="party-lobby">
+                            <div class="duo-actions">
+                                <div class="duo-action-card">
+                                    <h4>Create</h4>
+                                    <input type="text" id="createPartyName" class="duo-input" placeholder="Party Name">
+                                    <button id="createPartyBtn" class="duo-btn primary">Create</button>
+                                </div>
+                                <div class="duo-divider">OR</div>
+                                <div class="duo-action-card">
+                                    <h4>Join</h4>
+                                    <input type="text" id="partyInviteInput" class="duo-input"
+                                        placeholder="Invite Code">
+                                    <button id="joinPartyBtn" class="duo-btn secondary">Join</button>
+                                </div>
+                            </div>
+                            <p id="partyJoinError" class="duo-error"></p>
+                        </div>
+
+                        <!-- Dashboard -->
+                        <div id="partyDashboard" class="party-dashboard" style="display: none;">
+                            <div class="party-header">
+                                <div>
+                                    <h3 id="partyDisplayName" class="party-name">Party</h3>
+                                    <div class="invite-badge">Code: <span id="partyInviteCode">--</span> <button
+                                            id="copyPartyCodeBtn">📋</button></div>
+                                </div>
+                                <button id="leavePartyBtn" class="unpair-btn">Leave</button>
+                            </div>
+
+                            <!-- Weekly Group Goal -->
+                            <div class="party-goal-container">
+                                <div class="party-goal-header">
+                                    <h4>🎯 Weekly Group Goal</h4>
+                                    <span id="partyGoalText" class="goal-text">0 / 50k kg</span>
+                                </div>
+                                <div class="goal-progress-bg">
+                                    <div id="partyGoalProgress" class="goal-progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p class="goal-subtext">Lift 50,000 kg as a team this week to unlock the Iron Fellowship
+                                    status.</p>
+                            </div>
+
+                            <!-- Leaderboard -->
+                            <div class="leaderboard-container">
+                                <h4>🏆 Leaderboard</h4>
+                                <div id="partyLeaderboardList" class="leaderboard-list"></div>
+                            </div>
+
+                            <!-- Live Activity Feed -->
+                            <div class="party-feed-container">
+                                <h4>⚡ Live Activity Feed</h4>
+                                <div id="partyActivityList" class="party-feed-list">
+                                    <!-- Activity items injected here -->
+                                    <div class="feed-empty">No activity yet. Go lift something!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button id="prevMonth" class="cal-nav-btn">◀</button>
+                        <span id="calendarTitle">Month</span>
+                        <button id="nextMonth" class="cal-nav-btn">▶</button>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <span>Sun</span>
+                        <span>Mon</span>
+                        <span>Tue</span>
+                        <span>Wed</span>
+                        <span>Thu</span>
+                        <span>Fri</span>
+                        <span>Sat</span>
+                    </div>
+                    <div id="calendarGrid" class="calendar-grid"></div>
+                    <div class="calendar-legend">
+                        <div class="legend-item"><span class="legend-dot gym"></span>Completed</div>
+                        <div class="legend-item"><span class="legend-dot missed"></span>Missed</div>
+                        <div class="legend-item"><span class="legend-dot rest"></span>Rest Day</div>
+                    </div>
+                    <p class="calendar-hint">Tap a date to mark a workout</p>
+                </div>
+
+                <!-- Charts etc. hidden for brevity/premium feel -->
+            </section>
+        </main>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-view="tracker">
+                <span class="nav-icon">💪</span>
+                <span class="nav-label">Tracker</span>
+            </button>
+            <button class="nav-item" data-view="stats">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Stats & Party</span>
+            </button>
+        </nav>
+
+        <!-- Auth Gate (blocks entire site when not signed in) -->
+        <div id="authGate" class="auth-gate">
+            <div class="auth-gate-bg"></div>
+        </div>
+
+        <!-- MODALS -->
+        <!-- Auth Modal -->
+        <div id="authModal" class="auth-modal-overlay">
+            <div class="auth-modal">
+                <button id="authCloseBtn" class="auth-close-btn">&times;</button>
+                <div class="auth-modal-header">
+                    <span class="auth-modal-icon">🏋️</span>
+                    <h2 class="auth-modal-title">Transformation System</h2>
+                    <p class="auth-modal-subtitle">Sign in to access your training</p>
+                </div>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Login</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                <div id="loginPanel" class="auth-panel active">
+                    <form id="loginForm" class="auth-form">
+                        <div class="auth-input-group">
+                            <label for="loginInvite">Invite Code</label>
+                            <input type="text" id="loginInvite" placeholder="Enter your invite code" required>
+                        </div>
+                        <div class="auth-input-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                        </div>
+                        <div class="auth-input-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                        <p class="auth-error"></p>
+                        <button type="submit" class="auth-submit-btn">Log In</button>
+                        <div class="auth-divider"><span>or</span></div>
+                        <button type="button" id="googleSignInBtn" class="google-signin-btn">Continue with
+                            Google</button>
+                    </form>
+                </div>
+                <div id="signupPanel" class="auth-panel">
+                    <form id="signupForm" class="auth-form">
+                        <div class="auth-input-group">
+                            <label for="signupInvite">Invite Code</label>
+                            <input type="text" id="signupInvite" placeholder="Enter your invite code" required>
+                        </div>
+                        <div class="auth-input-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" placeholder="you@example.com" required>
+                        </div>
+                        <div class="auth-input-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" id="signupPassword" placeholder="••••••••" required>
+                        </div>
+                        <div class="auth-input-group">
+                            <label for="signupConfirm">Confirm Password</label>
+                            <input type="password" id="signupConfirm" placeholder="••••••••" required>
+                        </div>
+                        <p class="auth-error"></p>
+                        <button type="submit" class="auth-submit-btn">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warnup Modal -->
+        <div id="warmupModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Warm-Up</h2>
+                <div id="warmupContent"></div>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profileModal" class="auth-modal-overlay">
+            <div class="auth-modal profile-modal-content">
+                <button id="closeProfileModal" class="auth-close-btn">&times;</button>
+                <h3>Edit Profile</h3>
+                <div class="profile-form">
+                    <label>Display Name</label>
+                    <input type="text" id="editProfileName" maxlength="20">
+                    <label>Avatar</label>
+                    <div class="avatar-grid">
+                        <div class="avatar-option" data-avatar="🏋️‍♂️">🏋️‍♂️</div>
+                        <div class="avatar-option" data-avatar="💪">💪</div>
+                        <div class="avatar-option" data-avatar="🦍">🦍</div>
+                        <div class="avatar-option" data-avatar="⚡">⚡</div>
+                        <div class="avatar-option" data-avatar="🔥">🔥</div>
+                        <div class="avatar-option" data-avatar="👑">👑</div>
+                    </div>
+                    <button id="saveProfileBtn" class="auth-submit-btn">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mark Workout Modal -->
+        <div id="markWorkoutModal" class="auth-modal-overlay">
+            <div class="auth-modal mark-workout-modal-content">
+                <button id="closeMarkWorkoutModal" class="auth-close-btn">&times;</button>
+                <h3>📅 Mark Workout</h3>
+                <p id="markWorkoutDate" class="mark-workout-date"></p>
+                <div class="mark-workout-form">
+                    <div class="mark-workout-selectors">
+                        <div class="selector-group">
+                            <label>Week</label>
+                            <select id="markWorkoutWeek" class="gym-input">
+                                <option value="1">Week 1</option>
+                                <option value="2">Week 2</option>
+                                <option value="3">Week 3</option>
+                                <option value="4">Week 4</option>
+                                <option value="5">Week 5</option>
+                                <option value="6">Week 6</option>
+                                <option value="7">Week 7</option>
+                                <option value="8">Week 8</option>
+                                <option value="9">Week 9</option>
+                                <option value="10">Week 10</option>
+                                <option value="11">Week 11</option>
+                                <option value="12">Week 12</option>
+                            </select>
+                        </div>
+                        <div class="selector-group">
+                            <label>Day</label>
+                            <select id="markWorkoutDay" class="gym-input">
+                                <option value="1">Day 1 - Upper</option>
+                                <option value="2">Day 2 - Lower</option>
+                                <option value="4">Day 4 - Pull</option>
+                                <option value="5">Day 5 - Push</option>
+                                <option value="6">Day 6 - Legs</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="markWorkoutExisting" class="mark-workout-existing" style="display: none;">
+                        <p>⚠️ This date already has a workout marked.</p>
+                    </div>
+                    <div class="mark-workout-actions">
+                        <button id="markWorkoutBtn" class="duo-btn primary">Mark Workout</button>
+                        <button id="unmarkWorkoutBtn" class="duo-btn secondary" style="display: none;">Remove
+                            Marking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FEATURE SCRIPTS -->
+    <script src="js/muscle-map.js?v=2"></script>
+    <script src="js/app.js?v=4"></script>
+    <script src="js/party-mode.js?v=9"></script>
+    <script src="js/profile-manager.js?v=9"></script>
+    <script src="js/stats.js?v=5"></script>
+
+    <!-- PWA Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js?v=19'));
+        }
+
+        // Navigation Logic
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const view = btn.dataset.view;
+
+                // Toggle Buttons
+                document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Toggle Views
+                document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
+                document.getElementById(`view-${view}`).style.display = 'block';
+
+                // Toggle Header Controls
+                const trackerControls = document.getElementById('trackerHeaderControls');
+                if (view === 'tracker') {
+                    trackerControls.style.display = 'block';
+                    document.getElementById('pageTitle').textContent = 'Transformation System';
+                } else {
+                    trackerControls.style.display = 'none';
+                    document.getElementById('pageTitle').textContent = 'Statistics & Party';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,270 +1,159 @@
-# IronTrack
+# 🏋️ Bodybuilding Transformation System
 
-IronTrack is a gym tracking web app for lifters who want one place to log workouts, follow structured programs, review progress, and stay accountable with a squad.
+A **Progressive Web App (PWA)** for tracking your bodybuilding journey — complete with structured workout programs, cloud sync, party mode, and detailed statistics.
 
-Live app: [https://gym-krro.web.app/](https://gym-krro.web.app/)
+---
 
-## What You Can Do
+## 🚀 Features
 
-- Sign in with email/password or Google
-- Follow built-in training programs
-- Create custom workout programs
-- Log weight, reps, notes, and exercise variations
-- Track workout history and recent activity
-- Mark completed workouts on the calendar
-- Review estimated 1RM progress for major lifts
-- View a muscle fatigue map based on recent training
-- Join or create an Iron Fellowship squad
-- Export your workout data as JSON
+- **Workout Tracker** — Log sets, reps, and weights for each exercise across structured weekly programs
+- **Multiple Programs** — Includes a full Bodybuilding System and Jeff Nippard's Shoulder program
+- **Weekly Navigation** — Move between weeks and days with a clean block/week/day layout
+- **Muscle Map** — Visual heatmap showing which muscles were worked
+- **Stats Dashboard** — Track total workouts, total volume lifted, and current streaks
+- **Workout Calendar** — Mark, view, and review workouts on a monthly calendar
+- **Party Mode** — Create or join a party with friends, compete on a leaderboard, and work toward a weekly group volume goal (50,000 kg)
+- **Live Activity Feed** — See your party members' activity in real time
+- **Profile Manager** — Set a display name and choose an avatar
+- **Cloud Sync** — All data synced via Firebase Firestore across devices
+- **Authentication** — Invite-code-gated sign-up with Email/Password and Google Sign-In
+- **PWA / Offline Support** — Installable on mobile and desktop with Service Worker caching
+- **Warm-Up Modal** — View warm-up routines before each workout session
 
-## Main Areas
+---
 
-### Dashboard
+## 🛠️ Tech Stack
 
-The dashboard is your overview screen.
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Backend / Database | Firebase Firestore |
+| Authentication | Firebase Auth (Email + Google OAuth) |
+| Hosting | Firebase Hosting |
+| PWA | Web App Manifest + Service Worker |
+| Fonts | Google Fonts (Inter, Outfit) |
 
-You can use it to:
-- see total volume, total workouts, and active weeks
-- review recent activity
-- jump back into a logged workout
-- see your current active/default program
-- check squad progress if you are in a fellowship
-- view muscle fatigue at a glance
+---
 
-### Workout Tracker
+## 📁 Project Structure
 
-This is the main logging screen.
+```
+GYM/
+├── index.html              # Main app shell (single-page app)
+├── manifest.json           # PWA manifest
+├── sw.js                   # Service Worker for offline support
+├── firebase.json           # Firebase hosting config
+├── firestore.rules         # Firestore security rules
+├── .firebaserc             # Firebase project config
+├── css/
+│   └── style.css           # All app styles
+├── js/
+│   ├── config.js           # Firebase initialization
+│   ├── auth.js             # Authentication logic
+│   ├── cloud-sync.js       # Firestore read/write
+│   ├── programs.js         # Workout program definitions
+│   ├── app.js              # Core app logic & tracker
+│   ├── muscle-map.js       # Muscle heatmap rendering
+│   ├── party-mode.js       # Party/group challenge logic
+│   ├── profile-manager.js  # User profile management
+│   └── stats.js            # Stats & calendar logic
+└── assets/
+    └── icons/              # PWA icons (various sizes)
+```
 
-You can:
-- choose a program
-- choose the training week and day
-- see the workout focus for that day
-- switch between exercise variants where available
-- log weight, reps, and notes
-- set the workout date and finish time
-- mark the workout onto the calendar when you finish
+---
 
-### Stats & Calendar
+## ⚙️ Getting Started
 
-This screen helps you review progress over time.
+### Prerequisites
 
-You can:
-- see total workouts, active weeks, and volume
-- view estimated 1RM trends
-- mark workout dates on the calendar
-- remove workout markings if needed
-- review what was done on a selected day
+- A [Firebase](https://firebase.google.com/) project with **Authentication** and **Firestore** enabled
+- Node.js installed (for Firebase CLI)
 
-### Program Builder
-
-Use the builder to create your own program structure.
-
-You can:
-- create a custom program name
-- choose the number of weeks
-- add workout days
-- add exercises to each day
-- save and reuse custom programs in the tracker
-
-### Iron Fellowship
-
-Iron Fellowship is the squad/social area.
-
-You can:
-- create a squad
-- join a squad with an invite code
-- see squad members
-- view weekly volume totals
-- follow the squad activity feed
-- leave the squad whenever you want
-
-### Settings
-
-Settings lets you control your account and app behavior.
-
-You can:
-- change your display name
-- choose an avatar
-- set your default program
-- switch between kg and lbs preference
-- export your data
-- reset all workout logs
-
-## Getting Started as a User
-
-### 1. Create an Account
-
-Open the live app and either:
-- register with email and password, or
-- continue with Google
-
-### 2. Set Up Your Profile
-
-Open **Settings** and choose:
-- your display name
-- your avatar
-- your default program
-- your preferred weight unit
-
-### 3. Start Logging Workouts
-
-Go to **Workout Tracker** and:
-- pick your program
-- pick the correct week and day
-- enter your numbers for each exercise
-- add notes if needed
-- finish the workout to mark it on the calendar
-
-### 4. Review Progress
-
-Use:
-- **Dashboard** for a quick snapshot
-- **Stats & Calendar** for trends and planning
-- **Iron Fellowship** for shared motivation
-
-## Best Practices
-
-- Set your default program in Settings first
-- Use the workout date field if you are logging after the fact
-- Add notes when a set felt unusually easy, hard, or technically off
-- Check the fatigue map before stacking heavy sessions back to back
-- Export your data occasionally if you want an offline copy
-
-## Installing on Your Device
-
-IronTrack is a Progressive Web App (PWA), so you can install it from the browser.
-
-Depending on your device:
-- on desktop: use the browser install button in the address bar
-- on iPhone/iPad: use **Share > Add to Home Screen**
-- on Android: use **Install App** or **Add to Home Screen**
-
-## Troubleshooting
-
-### The app still shows an old version
-
-Because IronTrack uses a service worker, you may need to:
-- hard refresh the page
-- close and reopen the installed app
-- clear site data if the old bundle is stuck in cache
-
-### I cannot sign in
-
-Try:
-- checking that your email/password are correct
-- using Google sign-in instead
-- refreshing once and trying again
-
-### My workout did not appear on the calendar
-
-Make sure you:
-- entered a workout date
-- clicked **Finish Workout**
-- stayed signed in while the save completed
-
-### The squad screen is empty
-
-This usually means:
-- you are not in a squad yet, or
-- no activity has been logged in that squad
-
-## Data and Account Notes
-
-- Your workout logs are tied to your signed-in account
-- Export creates a JSON download of your workout data
-- Reset All Logs permanently removes saved workout logs and preferences related to logging
-
-## Running the Project Locally
-
-If you are using this repository as a developer or self-hosting for testing:
-
-### Requirements
-
-- Node.js
-- npm
-- Firebase CLI
-
-### Install
+### 1. Clone the Repository
 
 ```bash
-npm install
+git clone https://github.com/Shubhamisl/GYM.git
+cd GYM
 ```
 
-### Start the app
+### 2. Configure Firebase
+
+Update `js/config.js` with your Firebase project credentials:
+
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+```
+
+### 3. Deploy to Firebase Hosting
 
 ```bash
-npm run dev
+npm install -g firebase-tools
+firebase login
+firebase deploy
 ```
 
-### Build for production
+Or run locally with any static file server:
 
 ```bash
-npm run build
+npx serve .
 ```
 
-### Preview the production build
+---
 
-```bash
-npm run preview
-```
+## 🔐 Authentication
 
-### Deploy to Firebase Hosting
+Sign-up requires a valid **invite code** in addition to an email and password. Google Sign-In is also supported. This keeps the platform invite-only and community-focused.
 
-```bash
-firebase deploy --only hosting
-```
+---
 
-## Tech Stack
+## 🎮 Party Mode
 
-- React
-- Vite
-- Tailwind CSS
-- Firebase Authentication
-- Cloud Firestore
-- Firebase Hosting
-- Recharts
-- PWA via `vite-plugin-pwa`
+Party Mode lets you train with friends:
 
-## Current Project Structure
+1. **Create** a party and share the invite code
+2. Friends **join** using the code
+3. Track individual and team volume on the **leaderboard**
+4. Work together toward a **50,000 kg weekly group goal**
+5. Watch each other's activity in the **live feed**
 
-```text
-src/
-  components/    UI screens and reusable pieces
-  contexts/      auth context
-  data/          built-in programs and exercise assets
-  hooks/         Firestore-backed app logic
-dist/            production build output
-```
+---
 
-## Quick User FAQ
+## 📱 Installing as a PWA
 
-### Can I use built-in and custom programs?
+On mobile (Android/iOS) or desktop (Chrome/Edge):
 
-Yes. Built-in programs come with the app, and you can also create your own in Program Builder.
+1. Open the app in your browser
+2. Tap **"Add to Home Screen"** (mobile) or the install icon in the address bar (desktop)
+3. The app launches like a native app with offline support
 
-### Do I need to join a squad?
+---
 
-No. Iron Fellowship is optional.
+## 🤝 Contributing
 
-### Can I use it on mobile?
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-Yes. The app is mobile-friendly and can be installed like an app.
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m 'Add your feature'`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a Pull Request
 
-### Can I export my data?
+---
 
-Yes. Go to **Settings > Export Data**.
+## 📄 License
 
-### Can I reset everything?
+This project is open source. See the repository for details.
 
-You can reset workout logs from Settings. Be careful, because that action is destructive.
+---
 
-## Support
+## 👤 Author
 
-If you are maintaining this repo, the main user flows to verify after changes are:
-- login and register
-- dashboard navigation
-- tracker logging
-- calendar marking
-- custom program creation
-- squad join/create flow
-- export/reset behavior
+**Shubham** — [@Shubhamisl](https://github.com/Shubhamisl)

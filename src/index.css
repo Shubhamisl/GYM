@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-dim: #060e20;
+  --color-surface-container-low: #091328;
+  --color-surface-variant: #192540;
+  --color-surface-container-lowest: #000000;
+  --color-error: #ff6e84;
+  --color-outline: #6d758c;
+  --color-tertiary: #9bffce;
+  --color-on-surface: #dee5ff;
+  --color-primary: #a3a6ff;
+  --color-error-container: #a70138;
+  --color-error-dim: #d73357;
+  --color-surface-container-high: #141f38;
+  --color-background: #060e20;
+  --color-on-primary: #0f00a4;
+  --color-outline-variant: #40485d;
+  --color-primary-container: #9396ff;
+  --color-surface-container-highest: #192540;
+  --color-surface: #060e20;
+  --color-on-surface-variant: #a3aac4;
+  --color-primary-dim: #6063ee;
+  --color-surface-container: #0f1930;
+  --color-primary-fixed-dim: #8387ff;
+  --color-tertiary-fixed-dim: #58e7ab;
+  --color-secondary-dim: #cad5ed;
+  --color-secondary-fixed: #d8e3fb;
+  --color-secondary: #d8e3fb;
+  --color-tertiary-container: #69f6b8;
+
+  --font-headline: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    color-scheme: dark;
+  }
+}
+
+.glass-card {
+  background: rgba(31, 43, 73, 0.5);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.momentum-gradient {
+  background: linear-gradient(135deg, #a3a6ff 0%, #6063ee 100%);
+}
+
+.ghost-border {
+  border: 1px solid rgba(64, 72, 93, 0.2);
+}
+
+.themed-control {
+  color-scheme: dark;
+  border: 1px solid rgba(64, 72, 93, 0.38);
+  background-color: rgba(25, 37, 64, 0.72) !important;
+  color: var(--color-on-surface);
+  accent-color: var(--color-primary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.themed-control:hover,
+.themed-control:focus {
+  background-color: rgba(25, 37, 64, 0.92) !important;
+  border-color: rgba(163, 166, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 0 0 1px rgba(163, 166, 255, 0.05);
+}
+
+select.themed-control option {
+  background-color: #141f38;
+  color: var(--color-on-surface);
+}
+
+select.themed-control option:checked {
+  background-color: var(--color-primary-dim);
+  color: var(--color-on-surface);
+}
+
+.themed-control::-webkit-calendar-picker-indicator {
+  filter: invert(78%) sepia(17%) saturate(932%) hue-rotate(202deg) brightness(101%);
+  opacity: 0.85;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 166, 255, 0.2);
+  border-radius: 2px;
+}

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workout Tracker - IronTrack Onyx</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#9396ff",
+              "error": "#ff6e84",
+              "background": "#060e20",
+              "tertiary-fixed-dim": "#58e7ab",
+              "secondary-dim": "#cad5ed",
+              "on-surface-variant": "#a3aac4",
+              "on-background": "#dee5ff",
+              "surface-dim": "#060e20",
+              "on-tertiary": "#006443",
+              "surface-container-low": "#091328",
+              "on-error-container": "#ffb2b9",
+              "secondary-fixed": "#d8e3fb",
+              "on-primary-fixed-variant": "#0e009d",
+              "tertiary": "#9bffce",
+              "secondary": "#d8e3fb",
+              "on-surface": "#dee5ff",
+              "on-primary-fixed": "#000000",
+              "surface-container-high": "#141f38",
+              "surface-container-highest": "#192540",
+              "surface-container-lowest": "#000000",
+              "on-primary": "#0f00a4",
+              "primary-dim": "#6063ee",
+              "inverse-on-surface": "#4d556b",
+              "surface-tint": "#a3a6ff",
+              "error-container": "#a70138",
+              "tertiary-fixed": "#69f6b8",
+              "surface-bright": "#1f2b49",
+              "on-tertiary-container": "#005a3c",
+              "inverse-primary": "#494bd7",
+              "on-tertiary-fixed-variant": "#006544",
+              "on-secondary-fixed-variant": "#515c70",
+              "inverse-surface": "#faf8ff",
+              "on-primary-container": "#0a0081",
+              "secondary-fixed-dim": "#cad5ed",
+              "secondary-container": "#3c475a",
+              "on-error": "#490013",
+              "on-secondary-container": "#c5d1e8",
+              "outline-variant": "#40485d",
+              "on-tertiary-fixed": "#00452d",
+              "on-secondary-fixed": "#354053",
+              "tertiary-container": "#69f6b8",
+              "surface-variant": "#192540",
+              "tertiary-dim": "#58e7ab",
+              "surface-container": "#0f1930",
+              "primary-fixed": "#9396ff",
+              "outline": "#6d758c",
+              "surface": "#060e20",
+              "primary-fixed-dim": "#8387ff",
+              "on-secondary": "#475266",
+              "primary": "#a3a6ff",
+              "error-dim": "#d73357"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .glass-card {
+        background: rgba(31, 43, 73, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .momentum-gradient {
+        background: linear-gradient(135deg, #a3a6ff 0%, #6063ee 100%);
+      }
+      .ghost-border {
+        border: 1px solid rgba(64, 72, 93, 0.2);
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary/30 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full h-16 flex items-center justify-between px-6 z-40 bg-[#060e20]/60 backdrop-blur-xl">
+<div class="flex items-center gap-4">
+<button class="text-[#a3a6ff] opacity-80 hover:opacity-100 transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-[#dee5ff] font-black uppercase tracking-widest font-headline text-xl">IronTrack Onyx</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-[#a3a6ff] opacity-80 hover:opacity-100 transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-10 px-4 max-w-md mx-auto space-y-6">
+<!-- Header Section -->
+<section class="space-y-1">
+<span class="text-[10px] uppercase tracking-[0.2em] font-bold text-primary font-headline">Active Session</span>
+<h2 class="text-3xl font-extrabold font-headline tracking-tighter text-on-surface">Workout Tracker</h2>
+</section>
+<!-- Bento Selectors Section -->
+<section class="grid grid-cols-2 gap-3">
+<!-- Program Selector (Wide) -->
+<div class="col-span-2 surface-container p-5 rounded-DEFAULT ghost-border flex flex-col gap-2">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-headline">Program</label>
+<div class="flex items-center justify-between group">
+<span class="text-xl font-bold font-headline text-on-surface">Upper Power</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-y-0.5 transition-transform" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Week Selector -->
+<div class="surface-container p-5 rounded-DEFAULT ghost-border flex flex-col gap-2">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-headline">Phase</label>
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold font-headline text-on-surface">Week 2</span>
+<span class="material-symbols-outlined text-outline-variant text-sm" data-icon="calendar_today">calendar_today</span>
+</div>
+</div>
+<!-- Day Selector -->
+<div class="surface-container p-5 rounded-DEFAULT ghost-border flex flex-col gap-2">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-headline">Session</label>
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold font-headline text-on-surface">Day 1</span>
+<span class="material-symbols-outlined text-outline-variant text-sm" data-icon="fitness_center">fitness_center</span>
+</div>
+</div>
+</section>
+<!-- Exercise List -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-headline font-bold text-on-surface-variant">Session Queue</h3>
+<span class="text-[10px] font-bold px-2 py-1 bg-surface-container-highest rounded-full text-primary border border-primary/10">4 Exercises Left</span>
+</div>
+<!-- Exercise Card 1 -->
+<div class="glass-card rounded-DEFAULT p-5 ghost-border space-y-5">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h4 class="text-xl font-extrabold font-headline tracking-tight text-on-surface">Barbell Bench Press</h4>
+<div class="flex gap-3">
+<span class="text-[10px] font-medium text-on-surface-variant uppercase tracking-wider bg-surface-container-low px-2 py-0.5 rounded">Chest</span>
+<span class="text-[10px] font-medium text-on-surface-variant uppercase tracking-wider bg-surface-container-low px-2 py-0.5 rounded">Compound</span>
+</div>
+</div>
+<button class="h-10 w-10 rounded-full flex items-center justify-center bg-surface-container-highest text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Input Set Logic -->
+<div class="space-y-3">
+<div class="grid grid-cols-[3rem_1fr_1fr_3.5rem] gap-2 items-center text-center">
+<span class="text-[10px] font-bold text-outline uppercase">Set</span>
+<span class="text-[10px] font-bold text-outline uppercase">Lbs</span>
+<span class="text-[10px] font-bold text-outline uppercase">Reps</span>
+<span></span>
+</div>
+<!-- Set 1 (Active/Completed) -->
+<div class="grid grid-cols-[3rem_1fr_1fr_3.5rem] gap-2 items-center">
+<div class="h-10 w-10 flex items-center justify-center rounded-full bg-tertiary/10 text-tertiary font-black font-headline text-sm">1</div>
+<input class="h-10 w-full bg-surface-container-lowest border-none rounded-lg text-center font-bold text-on-surface focus:ring-1 focus:ring-primary" type="number" value="225"/>
+<input class="h-10 w-full bg-surface-container-lowest border-none rounded-lg text-center font-bold text-on-surface focus:ring-1 focus:ring-primary" type="number" value="5"/>
+<button class="h-10 w-10 flex items-center justify-center rounded-full bg-tertiary text-on-tertiary">
+<span class="material-symbols-outlined font-bold" data-icon="check">check</span>
+</button>
+</div>
+<!-- Set 2 (Current) -->
+<div class="grid grid-cols-[3rem_1fr_1fr_3.5rem] gap-2 items-center">
+<div class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-highest text-on-surface-variant font-black font-headline text-sm">2</div>
+<input class="h-10 w-full bg-surface-container-lowest border-none rounded-lg text-center font-bold text-on-surface focus:ring-1 focus:ring-primary" placeholder="---" type="number"/>
+<input class="h-10 w-full bg-surface-container-lowest border-none rounded-lg text-center font-bold text-on-surface focus:ring-1 focus:ring-primary" placeholder="---" type="number"/>
+<button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-highest text-outline-variant hover:bg-primary/20 hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="check">check</span>
+</button>
+</div>
+</div>
+<button class="w-full py-2 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-widest text-primary-container hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Add Set
+                </button>
+</div>
+<!-- Exercise Card 2 -->
+<div class="surface-container p-5 rounded-DEFAULT ghost-border space-y-5 opacity-60">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h4 class="text-xl font-extrabold font-headline tracking-tight text-on-surface">Pull Ups</h4>
+<div class="flex gap-3">
+<span class="text-[10px] font-medium text-on-surface-variant uppercase tracking-wider bg-surface-container-low px-2 py-0.5 rounded">Back</span>
+</div>
+</div>
+<button class="h-10 w-10 rounded-full flex items-center justify-center bg-surface-container-highest text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</button>
+</div>
+<div class="flex items-center justify-center py-4 border-2 border-dashed border-outline-variant/30 rounded-lg">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Complete previous exercise to unlock</span>
+</div>
+</div>
+</section>
+<!-- Stats Visualization (Bento Style) -->
+<section class="grid grid-cols-2 gap-3">
+<div class="surface-container p-4 rounded-DEFAULT ghost-border flex flex-col justify-between h-32">
+<span class="text-[10px] font-bold text-outline-variant uppercase tracking-widest">Total Volume</span>
+<div class="space-y-1">
+<p class="text-3xl font-black font-headline text-on-surface tracking-tighter">4,850<span class="text-xs font-normal text-on-surface-variant ml-1">lbs</span></p>
+<div class="h-1 w-full bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim w-[65%]"></div>
+</div>
+</div>
+</div>
+<div class="surface-container p-4 rounded-DEFAULT ghost-border flex flex-col justify-between h-32">
+<span class="text-[10px] font-bold text-outline-variant uppercase tracking-widest">Time Elapsed</span>
+<div class="space-y-1">
+<p class="text-3xl font-black font-headline text-on-surface tracking-tighter">24:18</p>
+<p class="text-[10px] font-medium text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="timer">timer</span>
+                        On track
+                    </p>
+</div>
+</div>
+</section>
+<!-- Finish Workout CTA -->
+<div class="pt-4">
+<button class="momentum-gradient w-full py-5 rounded-xl text-on-primary font-black font-headline text-lg uppercase tracking-widest shadow-2xl active:scale-95 transition-all">
+                Finish Workout
+            </button>
+</div>
+</main>
+<!-- Navigation Drawer (Conceptual hidden overlay for mobile) -->
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 pointer-events-none opacity-0 transition-opacity">
+<aside class="w-[280px] h-full fixed left-0 top-0 border-r border-white/10 flex flex-col h-full p-4 z-50 bg-[#091328]">
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-10 h-10 momentum-gradient rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="bolt">bolt</span>
+</div>
+<span class="text-2xl font-bold tracking-tighter text-[#dee5ff] uppercase font-headline">Kineticist</span>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 p-4 text-[#40485d] hover:text-[#dee5ff] transition-all duration-300 font-manrope tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-4 p-4 bg-[#141f38] text-[#a3a6ff] rounded-xl border-l-4 border-[#6366f1] font-manrope tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+                    Workout Tracker
+                </a>
+<a class="flex items-center gap-4 p-4 text-[#40485d] hover:text-[#dee5ff] transition-all duration-300 font-manrope tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="celebration">celebration</span>
+                    Party Mode
+                </a>
+<a class="flex items-center gap-4 p-4 text-[#40485d] hover:text-[#dee5ff] transition-all duration-300 font-manrope tracking-tight text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</nav>
+</aside>
+</div>
+</body></html>
